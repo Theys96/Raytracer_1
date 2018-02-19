@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 using namespace std;
 
@@ -51,14 +52,21 @@ Color Scene::trace(Ray const &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
-    Color color = material.color;                  // place holder
     Vector i_D;
+    Vector i_S;
     for (int i = 0; i < lights.size(); i++) {
         Vector L = (lights[i]->position - hit).normalized();
-        i_D += lights[i]->color * fmax(0, N.dot(L));
+        Vector R = 2*(N.dot(L))*N - L;
+        i_D += lights[i]->color * fmax(0, L.dot(N));
+        i_S += lights[i]->color * pow(fmax(0, R.dot(V)), material.n);
     }
+    i_D *= material.kd;
+    i_S *= material.ks;
 
-    return color*i_D;
+    Color lighting = 0.3+i_S+i_D;
+    lighting.clamp();
+
+    return lighting * material.color;
 }
 
 void Scene::render(Image &img)
