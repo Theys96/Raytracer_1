@@ -52,8 +52,13 @@ Color Scene::trace(Ray const &ray)
     ****************************************************/
 
     Color color = material.color;                  // place holder
+    Vector i_D;
+    for (int i = 0; i < lights.size(); i++) {
+        Vector L = (lights[i]->position - hit).normalized();
+        i_D += lights[i]->color * fmax(0, N.dot(L));
+    }
 
-    return color;
+    return color*i_D;
 }
 
 void Scene::render(Image &img)
