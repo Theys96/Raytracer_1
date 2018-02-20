@@ -4,6 +4,7 @@
 #include "light.h"
 #include "material.h"
 #include "triple.h"
+#include "objloader.h"
 
 // =============================================================================
 // -- Include all your shapes here ---------------------------------------------
@@ -59,6 +60,21 @@ bool Raytracer::parseObjectNode(json const &node)
         Point pos(node["position"]);
         Vector normal(node["normal"]);
         obj = ObjectPtr(new Plane(pos, normal));
+    } else if (node["type"] == "mesh")
+    {
+        string model = node["model"];
+        Material material = parseMaterialNode(node["material"]);
+        OBJLoader obj = OBJLoader(model);
+        vector<Vertex> vertices = obj.vertex_data();
+        for (uint i = 0; i < vertices.size(); i += 3) {
+            Point v0 = Point(vertices[i+0].x*2000-500, vertices[i+0].y*2000-500, vertices[i+0].z*2000-1000);
+            Point v1 = Point(vertices[i+1].x*2000-500, vertices[i+1].y*2000-500, vertices[i+1].z*2000-1000);
+            Point v2 = Point(vertices[i+2].x*2000-500, vertices[i+2].y*2000-500, vertices[i+2].z*2000-1000);
+            ObjectPtr obj = ObjectPtr(new Triangle(v0, v1, v2));
+            obj->material = material;
+            scene.addObject(obj);
+        }
+        return true;
     } else
     {
         cerr << "Unknown object type: " << node["type"] << ".\n";
