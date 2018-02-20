@@ -65,6 +65,7 @@ void Scene::render(Image &img)
             col.clamp();
             img(x, y) = col;
         }
+        cout << y << "\n";
     }
 }
 
