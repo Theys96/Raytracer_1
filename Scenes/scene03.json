@@ -25,6 +25,36 @@
 
         },
         {
+			"type": "triangle",
+			"comment": "Blue triangle",
+			"v0": [250, 320, 300],
+            "v1": [250, 230, 310],
+            "v2": [300, 320, 300],
+            "material":
+            {
+				"color": [0.14, 0.56, 0.73],
+				"ka": 0.2,
+                "kd": 0.7,
+                "ks": 0.5,
+                "n": 64
+			}
+		},
+		{
+			"type": "triangle",
+			"comment": "Forest green triangle",
+			"v0": [260, 230, 300],
+            "v1": [310, 230, 300],
+            "v2": [310, 320, 300],
+            "material":
+            {
+				"color": [0.06, 0.27, 0.03],
+				"ka": 0.2,
+                "kd": 0.7,
+                "ks": 0.5,
+                "n": 64
+			}
+		},
+        {
             "type": "plane",
             "comment": "Background plane",
             "position": [0, 0, 0],
@@ -55,7 +85,7 @@
         {
             "type": "sphere",
             "comment": "Green sphere",
-            "position": [210, 270, 300],
+            "position": [210, 270, 285],
             "radius": 50,
             "material":
             {
@@ -69,7 +99,7 @@
         {
             "type": "sphere",
             "comment": "Red sphere",
-            "position": [290, 170, 150],
+            "position": [290, 170, 180],
             "radius": 50,
             "material":
             {
@@ -82,22 +112,8 @@
         },
         {
             "type": "sphere",
-            "comment": "Yellow sphere",
-            "position": [140, 220, 400],
-            "radius": 50,
-            "material":
-            {
-                "color": [1.0, 0.8, 0.0],
-                "ka": 0.2,
-                "kd": 0.8,
-                "ks": 0.0,
-                "n": 1
-            }
-        },
-        {
-            "type": "sphere",
             "comment": "Orange sphere",
-            "position": [110, 130, 200],
+            "position": [110, 130, 120],
             "radius": 50,
             "material":
             {
