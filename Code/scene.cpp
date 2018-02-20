@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 using namespace std;
 
@@ -33,27 +34,21 @@ Color Scene::trace(Ray const &ray)
     Vector N = min_hit.N;                          //the normal at hit point
     Vector V = -ray.D;                             //the view vector
 
-    /****************************************************
-    * This is where you should insert the color
-    * calculation (Phong model).
-    *
-    * Given: material, hit, N, V, lights[]
-    * Sought: color
-    *
-    * Hints: (see triple.h)
-    *        Triple.dot(Vector) dot product
-    *        Vector + Vector    vector sum
-    *        Vector - Vector    vector difference
-    *        Point - Point      yields vector
-    *        Vector.normalize() normalizes vector, returns length
-    *        double * Color     scales each color component (r,g,b)
-    *        Color * Color      dito
-    *        pow(a,b)           a to the power of b
-    ****************************************************/
+    Color I_d;
+    Color I_s;
+    for (int i = 0; i < lights.size(); i++) {
+        Vector L = (lights[i]->position - hit).normalized();
+        Vector R = 2*(N.dot(L))*N - L;
+        I_d += lights[i]->color * fmax(0, L.dot(N));
+        I_s += lights[i]->color * pow(fmax(0, R.dot(V)), material.n);
+    }
+    I_d *= material.kd;
+    I_s *= material.ks;
 
-    Color color = material.color;                  // place holder
 
-    return color;
+    Color I = material.ka+I_d;
+
+    return I_s + (I * material.color);
 }
 
 void Scene::render(Image &img)

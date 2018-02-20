@@ -1,6 +1,7 @@
 #include "sphere.h"
 
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -24,22 +25,27 @@ Hit Sphere::intersect(Ray const &ray)
 
     // place holder for actual intersection calculation
 
-    Vector OC = (position - ray.O).normalized();
-    if (OC.dot(ray.D) < 0.999) {
+    Vector distance = ray.O - position;
+    double b = distance.dot(ray.D);
+    double d = b*b - distance.length_2() + r*r;
+    if (d < 0) {
         return Hit::NO_HIT();
     }
-    double t = 1000;
+    double t = -b-sqrt(d);
+    if (t <= 0) {
+        return Hit::NO_HIT();
+    }
 
     /****************************************************
     * RT1.2: NORMAL CALCULATION
-    *
+    * 
     * Given: t, C, r
     * Sought: N
-    *
+    * 
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
 
-    Vector N /* = ... */;
+    Vector N = (ray.at(t) - position).normalized();
 
     return Hit(t,N);
 }
