@@ -52,21 +52,21 @@ Color Scene::trace(Ray const &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
-    Vector i_D;
-    Vector i_S;
+    Color I_d;
+    Color I_s;
     for (int i = 0; i < lights.size(); i++) {
         Vector L = (lights[i]->position - hit).normalized();
         Vector R = 2*(N.dot(L))*N - L;
-        i_D += lights[i]->color * fmax(0, L.dot(N));
-        i_S += lights[i]->color * pow(fmax(0, R.dot(V)), material.n);
+        I_d += lights[i]->color * fmax(0, L.dot(N));
+        I_s += lights[i]->color * pow(fmax(0, R.dot(V)), material.n);
     }
-    i_D *= material.kd;
-    i_S *= material.ks;
+    I_d *= material.kd;
+    I_s *= material.ks;
 
-    Color lighting = 0.3+i_S+i_D;
-    lighting.clamp();
 
-    return lighting * material.color;
+    Color I = material.ka+I_d;
+
+    return I_s + (I * material.color);
 }
 
 void Scene::render(Image &img)

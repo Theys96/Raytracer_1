@@ -26,22 +26,22 @@ Hit Sphere::intersect(Ray const &ray)
     // place holder for actual intersection calculation
 
     Vector distance = ray.O - position;
-    double b = ray.D.dot(distance);
-    double d = b*b - distance.dot(distance) + r*r;
+    double b = distance.dot(ray.D);
+    double d = b*b - distance.length_2() + r*r;
     if (d < 0) {
         return Hit::NO_HIT();
     }
-    double t = -b+sqrt(d);
+    double t = -b-sqrt(d);
     if (t < 0) {
         return Hit::NO_HIT();
     }
 
     /****************************************************
     * RT1.2: NORMAL CALCULATION
-    *
+    * 
     * Given: t, C, r
     * Sought: N
-    *
+    * 
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
 
