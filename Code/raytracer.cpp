@@ -67,10 +67,13 @@ bool Raytracer::parseObjectNode(json const &node)
         OBJLoader obj = OBJLoader(model);
         vector<Vertex> vertices = obj.vertex_data();
         for (uint i = 0; i < vertices.size(); i += 3) {
-            Point v0 = Point(vertices[i+0].x*2000-500, vertices[i+0].y*2000-500, vertices[i+0].z*2000-1000);
-            Point v1 = Point(vertices[i+1].x*2000-500, vertices[i+1].y*2000-500, vertices[i+1].z*2000-1000);
-            Point v2 = Point(vertices[i+2].x*2000-500, vertices[i+2].y*2000-500, vertices[i+2].z*2000-1000);
-            ObjectPtr obj = ObjectPtr(new Triangle(v0, v1, v2));
+            Point v0 = Point(vertices[i+0].x*1000, vertices[i+0].y*1000, vertices[i+0].z*1000);
+            Vector n0 = Vector(vertices[i+0].nx, vertices[i+0].ny, vertices[i+0].nz);
+            Point v1 = Point(vertices[i+1].x*1000, vertices[i+1].y*1000, vertices[i+1].z*1000);
+            Vector n1 = Vector(vertices[i+1].nx, vertices[i+1].ny, vertices[i+1].nz);
+            Point v2 = Point(vertices[i+2].x*1000, vertices[i+2].y*1000, vertices[i+2].z*1000);
+            Vector n2 = Vector(vertices[i+2].nx, vertices[i+2].ny, vertices[i+2].nz);
+            ObjectPtr obj = ObjectPtr(new Triangle(v0, v1, v2, n0, n1, n2));
             obj->material = material;
             scene.addObject(obj);
         }
