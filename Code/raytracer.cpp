@@ -53,8 +53,17 @@ bool Raytracer::parseObjectNode(json const &node)
         Point v1(node["v1"]);
         Point v2(node["v2"]);
         Point v3(node["v3"]);
-        obj = ObjectPtr(new Triangle(v0, v1, v2));
-        obj2 = ObjectPtr(new Triangle(v0, v2, v3));
+
+        Point e1 = v1 - v0;
+        Point e2 = v2 - v0;
+        Point e3 = v3 - v0;
+
+        Vector n1 = e1.cross(e2).normalized();
+        Vector n3 = e2.cross(e3).normalized();
+        Vector n2 = ((n1 + n3)/2).normalized(); //Average
+
+        obj = ObjectPtr(new Triangle(v0, v1, v2, n2, n1, n2));
+        obj2 = ObjectPtr(new Triangle(v0, v2, v3, n2, n2, n3));
     } else if (node["type"] == "plane")
     {
         Point pos(node["position"]);
