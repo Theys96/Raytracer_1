@@ -32,7 +32,7 @@ Hit Sphere::intersect(Ray const &ray)
         return Hit::NO_HIT();
     }
     double t = -b-sqrt(d);
-    if (t < 0) {
+    if (t <= 0) {
         return Hit::NO_HIT();
     }
 
