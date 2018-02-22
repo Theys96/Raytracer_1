@@ -68,11 +68,13 @@ bool Raytracer::parseObjectNode(json const &node)
         OBJLoader obj = OBJLoader(model);
         vector<Vertex> vertices = obj.vertex_data();
         for (uint i = 0; i < vertices.size(); i += 3) {
-            Point v0 = Point(vertices[i+0].x, vertices[i+0].y, vertices[i+0].z);
+            // Hardcoded transformation
+            // TODO: not hardcode the transformation
+            Point v0 = Point(vertices[i+0].x*400+200, vertices[i+0].y*400+100, vertices[i+0].z*400);
             Vector n0 = Vector(vertices[i+0].nx, vertices[i+0].ny, vertices[i+0].nz);
-            Point v1 = Point(vertices[i+1].x, vertices[i+1].y, vertices[i+1].z);
+            Point v1 = Point(vertices[i+1].x*400+200, vertices[i+1].y*400+100, vertices[i+1].z*400);
             Vector n1 = Vector(vertices[i+1].nx, vertices[i+1].ny, vertices[i+1].nz);
-            Point v2 = Point(vertices[i+2].x, vertices[i+2].y, vertices[i+2].z);
+            Point v2 = Point(vertices[i+2].x*400+200, vertices[i+2].y*400+100, vertices[i+2].z*400);
             Vector n2 = Vector(vertices[i+2].nx, vertices[i+2].ny, vertices[i+2].nz);
             ObjectPtr obj = ObjectPtr(new Triangle(v0, v1, v2, n0, n1, n2));
             obj->material = material;
